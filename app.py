@@ -3,17 +3,16 @@ from PIL import Image
 import torch
 from transformers import TrOCRProcessor, VisionEncoderDecoderModel
 
-MODEL_NAME = 'model/'
-processor = TrOCRProcessor.from_pretrained(MODEL_NAME)
-model = VisionEncoderDecoderModel.from_pretrained(MODEL_NAME)
+MODEL_PATH = 'model/'
+processor = TrOCRProcessor.from_pretrained(MODEL_PATH)
+model = VisionEncoderDecoderModel.from_pretrained(MODEL_PATH)
 
 streamlit.title('Light OCR')
 
 uploaded_file = streamlit.file_uploader('Choose an image...', type=['png', 'jpg', 'jpeg'])
 if uploaded_file:
-    image = Image.open(uploaded_file).convert("RGB")
-    image = image.resize((384, 384))
-    streamlit.image(image, caption='Uploaded Image', use_column_width=True)
+    image = Image.open(uploaded_file).convert('RGB')
+    streamlit.image(image, caption='Uploaded Image', use_container_width=True)
     
     pixel_values = processor(images=image, return_tensors='pt').pixel_values
     output_ids = model.generate(pixel_values)

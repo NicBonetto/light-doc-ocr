@@ -3,7 +3,7 @@ from transformers import VisionEncoderDecoderModel, TrOCRProcessor
 from config import MODEL_NAME
 
 device = torch.device('mps') if torch.backends.mps.is_available() else torch.device('cpu')
-processor = TrOCRProcessor.from_pretrained(MODEL_NAME, use_fast = False)
+processor = TrOCRProcessor.from_pretrained(MODEL_NAME)
 model = VisionEncoderDecoderModel.from_pretrained(MODEL_NAME).to(device)
 
 model.config.decoder_start_token_id = processor.tokenizer.bos_token_id
